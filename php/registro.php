@@ -30,30 +30,39 @@
         <?php
         include("conexionbd.php");
 
-        // Verificar si se ha enviado el formulario de registro
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Obtener los datos del formulario
-            $nombre = $_POST["nombre"];
-            $apellido = $_POST["apellido"];
-            $correo_electronico = $_POST["correo_electronico"];
-            $contrasena = $_POST["contrasena"];
-            $telefono = $_POST["telefono"];
-            $nivel_acceso = 1; // Establecer nivel de acceso por defecto, puedes cambiarlo según tus necesidades
+            $nombre = $conexion->real_escape_string($_POST["nombre"]);
+            $apellido = $conexion->real_escape_string($_POST["apellido"]);
+            $correo_electronico = $conexion->real_escape_string($_POST["correo_electronico"]);
+            $contrasena = $conexion->real_escape_string($_POST["contrasena"]);
+            $telefono = $conexion->real_escape_string($_POST["telefono"]);
+            $nivel_acceso = 'base'; // Ajusta según tus necesidades
 
-            // Insertar los datos en la base de datos
-            $sql = "INSERT INTO Usuario (Nombre, Apellido, Correo_Electronico, Contrasena, Telefono, Nivel_Acceso) 
-                    VALUES ('$nombre', '$apellido', '$correo_electronico', '$contrasena', '$telefono', $nivel_acceso)";
+            // Verificar si el correo electrónico ya está registrado
+            $query = $conexion->prepare("SELECT Correo_Electronico FROM Usuario WHERE Correo_Electronico = ?");
+            $query->bind_param("s", $correo_electronico);
+            $query->execute();
+            $result = $query->get_result();
 
-            if ($conexion->query($sql) === TRUE) {
-                // Redirigir a login.php si el registro es exitoso
-                header("Location: login.php");
-                exit;
+            if ($result->num_rows > 0) {
+                echo "<p>Este correo electrónico ya está registrado.</p>";
             } else {
-                // Mostrar mensaje de error si falla el registro
-                echo "<p>Error al registrar el usuario: " . $conexion->error . "</p>";
-            }
+                // Encriptar la contraseña antes de guardarla en la base de datos
+                $contrasena_hash = password_hash($contrasena, PASSWORD_DEFAULT);
 
-            // Cerrar la conexión a la base de datos
+                // Insertar los datos en la base de datos
+                $stmt = $conexion->prepare("INSERT INTO Usuario (Nombre, Apellido, Correo_Electronico, Contrasena, Telefono, Nivel_Acceso) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("ssssss", $nombre, $apellido, $correo_electronico, $contrasena_hash, $telefono, $nivel_acceso);
+
+                if ($stmt->execute()) {
+                    echo "<p>Registro exitoso. <a href='login.php'>Inicie sesión aquí</a>.</p>";
+                } else {
+                    echo "<p>Error al registrar el usuario: " . $stmt->error . "</p>";
+                }
+
+                $stmt->close();
+            }
+            $query->close();
             $conexion->close();
         }
         ?>

@@ -4,42 +4,40 @@ session_start(); // Iniciar sesión al comienzo del script
 include("conexionbd.php");
 
 if (isset($_POST["btningresar"])) {
-    // Verificar si alguno de los campos está vacío
     if (empty($_POST["correo_electronico"]) || empty($_POST["contrasena"])) {
-        echo "LOS CAMPOS ESTÁN VACÍOS";
+        $error = "Los campos están vacíos";
     } else {
         $correo_electronico = $conexion->real_escape_string($_POST["correo_electronico"]);
-        $contrasena = $conexion->real_escape_string($_POST["contrasena"]);
+        $contrasena = $_POST["contrasena"];  // Capturar la contraseña sin escapar para verificar hash
 
-        // Consultar la contraseña del usuario
         $consulta = $conexion->prepare("SELECT ID_Usuario, Correo_Electronico, Contrasena FROM Usuario WHERE Correo_Electronico = ?");
         $consulta->bind_param("s", $correo_electronico);
         $consulta->execute();
         $resultado = $consulta->get_result();
 
         if ($resultado->num_rows == 1) {
-            // Obtener la contraseña de la base de datos
             $fila = $resultado->fetch_assoc();
             $contrasenaAlmacenada = $fila['Contrasena'];
 
             // Verificar la contraseña
-            if ($contrasena === $contrasenaAlmacenada) {
+            if (password_verify($contrasena, $contrasenaAlmacenada)) {
                 $_SESSION['usuario'] = $fila['Correo_Electronico']; // Usar el correo electrónico como identificador de usuario
                 $_SESSION['id_usuario'] = $fila['ID_Usuario'];
 
                 // Redirigir a la página deseada
-                header("Location: index.php");
+                header("Location: ../index.html");
                 exit;
             } else {
-                echo "Contraseña incorrecta";
+                $error = "Contraseña incorrecta";
             }
         } else {
-            echo "Usuario no encontrado";
+            $error = "Usuario no encontrado";
         }
         $consulta->close();
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -59,6 +57,11 @@ if (isset($_POST["btningresar"])) {
 
             <input type="submit" name="btningresar" value="Ingresar">
         </form>
+        <?php
+        if (!empty($error)) {
+            echo "<p class='error'>" . $error . "</p>";
+        }
+        ?>
     </div>
 </body>
 </html>
