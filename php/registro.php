@@ -55,9 +55,10 @@
                 $stmt->bind_param("ssssss", $nombre, $apellido, $correo_electronico, $contrasena_hash, $telefono, $nivel_acceso);
 
                 if ($stmt->execute()) {
-                    echo "<p>Registro exitoso. <a href='login.php'>Inicie sesión aquí</a>.</p>";
+                    header("Location: login.php");
+                    exit;
                 } else {
-                    echo "<p>Error al registrar el usuario: " . $stmt->error . "</p>";
+                    echo "<p>Error al registrar el usuario: " . $conexion->error . "</p>";
                 }
 
                 $stmt->close();
