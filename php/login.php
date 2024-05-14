@@ -42,10 +42,13 @@ if (isset($_POST["btningresar"])) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+    <link href="../css/login/login.css" rel="stylesheet" />
     <meta charset="UTF-8">
     <title>Login</title>
 </head>
+
 <body>
     <div class="login-container">
         <h2>Iniciar Sesión</h2>
@@ -60,4 +63,5 @@ if (isset($_POST["btningresar"])) {
         </form>
     </div>
 </body>
+
 </html>

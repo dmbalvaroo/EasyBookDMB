@@ -1,0 +1,76 @@
+/* Estilos base para el perfil */
+body {
+    background-color: #f7f8fa; /* Un fondo suave para no distraer */
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.profile-container {
+    background-color: #fff8f0; /* Un tono claro de marrón/beige */
+    padding: 40px 60px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    text-align: left;
+}
+
+h2 {
+    color: #385d3a; /* Un verde oscuro para los títulos */
+    font-weight: bold;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+p {
+    color: #6c757d; /* Gris para texto */
+    margin: 20px 0;
+    font-size: 16px;
+    line-height: 1.5;
+    border-bottom: 1px solid #e9ecef; /* Una línea sutil para separar los elementos */
+    padding-bottom: 10px;
+}
+
+p strong {
+    color: #385d3a; /* Coincide con el color del título */
+    display: block; /* Hace que el título del campo se muestre como bloque */
+    margin-bottom: 5px;
+}
+
+a {
+    display: inline-block;
+    background-color: #789c74; /* Un verde suave para el botón */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    margin-top: 25px;
+    text-align: center;
+    width: 100%; /* Hace que el botón ocupe todo el ancho del contenedor */
+}
+
+a:hover {
+    background-color: #557c55; /* Un verde más oscuro para el hover */
+}
+
+a[href*="logout.php"] {
+    background-color: #ff6347; /* Rojo para cerrar sesión, implicando una acción importante */
+}
+
+a[href*="destroy.php"] {
+    background-color: #dc3545; /* Rojo más oscuro para eliminar cuenta, destacando la severidad de la acción */
+}
+
+a[href*="modificarPerfil.php"] {
+    background-color: #f0ad4e; /* Amarillo, significando una acción de cambio o edición */
+}
+
+a[href*="index.php"] {
+    background-color: #6c757d; /* Gris para volver al inicio, una acción menos crítica */
+}

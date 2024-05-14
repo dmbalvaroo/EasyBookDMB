@@ -6,6 +6,10 @@
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
 <!DOCTYPE html>
+<?php
+session_start(); // Asegúrate de iniciar la sesión aquí
+?>
+
 <html lang="en">
 
 <head>
@@ -27,45 +31,45 @@
 
 <body>
   <!-- Start Header/Navigation -->
-  <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">EasyBook<span>.</span></a>
+  <!-- Start Header/Navigation -->
+<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">EasyBook<span>.</span></a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <div class="collapse navbar-collapse" id="navbarsFurni">
-        <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-          <li class="nav-item active">
-            <a class="nav-link" href="index.html">Inicio</a>
-          </li>
-          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li><a class="nav-link" href="shop.html">Shop</a></li>
-            <li><a class="nav-link" href="about.html">Sobre Nosotros</a></li>
-            <li><a class="nav-link" href="services.html">Services</a></li>
-            <?php if (isset($_SESSION['usuario'])) : ?>
-              <li><a class="nav-link" href="logout.php">Cerrar Sesión</a></li>
-            <?php else : ?>
-              <li><a class="nav-link" href="php/login.php">Iniciar sesión</a></li>
-              <li><a class="nav-link" href="php/registro.php">Registro</a></li>
-            <?php endif; ?>
-            <li><a class="nav-link" href="contact.html">Contacto</a></li>
-          </ul>
+    <div class="collapse navbar-collapse" id="navbarsFurni">
+      <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Inicio</a>
+        </li>
+        <li><a class="nav-link" href="shop.html">Shop</a></li>
+        <li><a class="nav-link" href="about.html">Sobre Nosotros</a></li>
+        <li><a class="nav-link" href="services.html">Services</a></li>
+        <?php if (isset($_SESSION['usuario'])) : ?>
+          <li><a class="nav-link" href="php/logout.php">Cerrar Sesión</a></li>
+        <?php else : ?>
+          <li><a class="nav-link" href="php/login.php">Iniciar sesión</a></li>
+          <li><a class="nav-link" href="php/registro.php">Registro</a></li>
+        <?php endif; ?>
+        <li><a class="nav-link" href="contact.html">Contacto</a></li>
+      </ul>
 
-
-
-          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-            <li>
-              <a class="nav-link" href="#"><img src="images/user.svg" /></a>
-            </li>
-            <li>
-              <a class="nav-link" href="cart.html"><img src="images/cart.svg" /></a>
-            </li>
-          </ul>
-      </div>
+      <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+        <li>
+          <a class="nav-link" href="php/profile.php"> <img src="images/user.svg" /></a>
+        </li>
+        <li>
+          <a class="nav-link" href="cart.html"><img src="images/cart.svg" /></a>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
+<!-- End Header/Navigation -->
+
   <!-- End Header/Navigation -->
 
   <!-- Start Hero Section -->

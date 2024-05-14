@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Registro de Usuario</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Asegúrate de incluir tu hoja de estilos CSS aquí -->
+    <link href="../css/login/registro.css" rel="stylesheet" />
+
 </head>
 <body>
     <div class="registro-container">
