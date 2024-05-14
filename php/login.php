@@ -4,46 +4,47 @@ session_start(); // Iniciar sesión al comienzo del script
 include("conexionbd.php");
 
 if (isset($_POST["btningresar"])) {
+    // Verificar si alguno de los campos está vacío
     if (empty($_POST["correo_electronico"]) || empty($_POST["contrasena"])) {
-        $error = "Los campos están vacíos";
+        echo "LOS CAMPOS ESTÁN VACÍOS";
     } else {
         $correo_electronico = $conexion->real_escape_string($_POST["correo_electronico"]);
-        $contrasena = $_POST["contrasena"];  // Capturar la contraseña sin escapar para verificar hash
+        $contrasena = $conexion->real_escape_string($_POST["contrasena"]);
 
+        // Consultar la contraseña del usuario
         $consulta = $conexion->prepare("SELECT ID_Usuario, Correo_Electronico, Contrasena FROM Usuario WHERE Correo_Electronico = ?");
         $consulta->bind_param("s", $correo_electronico);
         $consulta->execute();
         $resultado = $consulta->get_result();
 
         if ($resultado->num_rows == 1) {
+            // Obtener la contraseña de la base de datos
             $fila = $resultado->fetch_assoc();
             $contrasenaAlmacenada = $fila['Contrasena'];
 
-            // Verificar la contraseña
+            // Verificar la contraseña utilizando password_verify
             if (password_verify($contrasena, $contrasenaAlmacenada)) {
                 $_SESSION['usuario'] = $fila['Correo_Electronico']; // Usar el correo electrónico como identificador de usuario
                 $_SESSION['id_usuario'] = $fila['ID_Usuario'];
 
-                // Redirigir a la página deseada
-                header("Location: ../index.html");
+                // Redirigir a la página de inicio después del login
+                header("Location: ../index.php"); // Asegúrate de redirigir a un archivo .php si necesitas acceso a la sesión
                 exit;
             } else {
-                $error = "Contraseña incorrecta";
+                echo "Contraseña incorrecta";
             }
         } else {
-            $error = "Usuario no encontrado";
+            echo "Usuario no encontrado";
         }
         $consulta->close();
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="login.css">
 </head>
 <body>
     <div class="login-container">
@@ -57,11 +58,6 @@ if (isset($_POST["btningresar"])) {
 
             <input type="submit" name="btningresar" value="Ingresar">
         </form>
-        <?php
-        if (!empty($error)) {
-            echo "<p class='error'>" . $error . "</p>";
-        }
-        ?>
     </div>
 </body>
 </html>
