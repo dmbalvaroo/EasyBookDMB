@@ -26,6 +26,8 @@
             <input type="tel" id="telefono" name="telefono" required>
 
             <input type="submit" name="btnregistrar" value="Registrar">
+            <input type="button" id="Volver" href="../index.php" value="volver a inicio">
+          
         </form>
 
         <?php

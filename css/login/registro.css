@@ -63,3 +63,17 @@ p {
     color: #cc0000;
     text-align: center;
 }
+.back-button-container button {
+    background-color: #5c67f2; /* Color de fondo azul */
+    color: white; /* Texto en color blanco */
+    padding: 10px 20px; /* Padding para hacer el botón más grande */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en forma de puntero para indicar que es clickeable */
+    transition: background-color 0.3s; /* Transición suave del color de fondo */
+    margin-top: 15px; /* Margen superior para separarlo del botón de registro */
+}
+
+.back-button-container button:hover {
+    background-color: #4348a2; /* Color más oscuro al pasar el ratón por encima */
+}

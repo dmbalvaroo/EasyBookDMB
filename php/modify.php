@@ -54,15 +54,17 @@
 
     <!DOCTYPE html>
     <html lang="es">
+
     <head>
         <meta charset="UTF-8">
         <title>Modificar Perfil</title>
         <link href="../css/login/modify.css" rel="stylesheet" />
     </head>
+
     <body>
         <div class="modify-container">
             <h2>Modificar Perfil</h2>
-            <?php if (!empty($error)): ?>
+            <?php if (!empty($error)) : ?>
                 <p class="error"><?php echo $error; ?></p>
             <?php endif; ?>
             <form action="modify.php" method="post">
@@ -75,11 +77,11 @@
                 <label for="correo_electronico">Correo Electrónico:</label>
                 <input type="email" id="correo_electronico" name="correo_electronico" value="<?php echo htmlspecialchars($usuario['correo_electronico']); ?>" required>
 
-                <label for="telefono">Teléfono:</label
-                ><input type="tel" id="telefono" name="telefono" value="<?php echo htmlspecialchars($usuario['telefono']); ?>" required>
+                <label for="telefono">Teléfono:</label><input type="tel" id="telefono" name="telefono" value="<?php echo htmlspecialchars($usuario['telefono']); ?>" required>
 
                 <input type="submit" value="Actualizar">
             </form>
         </div>
     </body>
+
     </html>

@@ -26,7 +26,7 @@ if (isset($_POST["btningresar"])) {
 
                 // Redirigir según el tipo de usuario
                 if ($fila['tipo_usuario'] === 'empresa' || $fila['nivel_acceso'] === 'administrador') {
-                    header("Location: ../indexEmpresas.php");
+                    header("Location: ../indexEmpresa.php");
                 } else {
                     header("Location: ../index.php");
                 }
@@ -41,29 +41,3 @@ if (isset($_POST["btningresar"])) {
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <link href="../css/login/login.css" rel="stylesheet" />
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-
-<body>
-    <div class="login-container">
-        <h2>Iniciar Sesión</h2>
-        <form action="login.php" method="post">
-            <label for="correo_electronico">Correo Electrónico:</label>
-            <input type="text" id="correo_electronico" name="correo_electronico" required>
-
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="contrasena" required>
-
-            <input type="submit" name="btningresar" value="Ingresar">
-        </form>
-    </div>
-</body>
-
-</html>

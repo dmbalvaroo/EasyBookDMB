@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #e8f0fe; /* Fondo más claro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #ffffff; /* Fondo blanco para el formulario */
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+                0 10px 10px rgba(0,0,0,0.22);
+    position: relative;
+    overflow: hidden;
+    width: 360px; /* Ancho del contenedor ajustado */
+    max-width: 100%;
+    min-height: 360px; /* Altura ajustada para que sea más compacta */
+}
+
+form {
+    background-color: transparent; /* Fondo transparente para el formulario */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px; /* Padding reducido para un mejor ajuste */
+    height: 25%;
+    text-align: center;
+}
+
+h1, h2, p, span, a, input, button {
+    color: #333; /* Texto más oscuro para mejor contraste sobre fondo claro */
+}
+
+h1 {
+    font-weight: bold;
+    margin: 0 0 20px 0; /* Espacio añadido sobre el título */
+}
+
+input {
+    background-color: #f0f0f0; /* Fondo de los inputs más claro */
+    border: 2px solid #ccc; /* Borde más definido para los inputs */
+    border-radius: 5px; /* Bordes redondeados para los inputs */
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 90%; /* Ajuste del ancho del input */
+}
+
+button {
+    border-radius: 5px; /* Bordes menos redondeados para el botón */
+    border: none; /* Sin borde exterior */
+    background-color: #4CAF50; /* Color de fondo del botón más profesional */
+    color: #FFFFFF;
+    font-size: 16px; /* Tamaño de fuente más grande para el botón */
+    font-weight: bold;
+    padding: 10px 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #45a049; /* Efecto hover más sutil para el botón */
+}
+
+button:active {
+    transform: scale(0.98); /* Efecto más sutil para el click del botón */
+}
+
+button:focus {
+    outline: none; /* Eliminar el contorno al enfocar */
+}

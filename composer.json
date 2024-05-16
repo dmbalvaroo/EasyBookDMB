@@ -1,0 +1,17 @@
+{
+    "name": "alvaro/easy-book",
+    "description": "Easybook es mi tfg de una web de reservas",
+    "autoload": {
+        "psr-4": {
+            "Alvaro\\EasyBook\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "alvaro"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}
