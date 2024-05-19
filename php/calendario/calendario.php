@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Calendario de Reservas</title>
-    <!-- <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css' rel='stylesheet' /> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -21,89 +22,76 @@
 </head>
 <body>
     <div id='calendar'></div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'timeGridWeek',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                slotMinTime: '08:00:00',
-                slotMaxTime: '20:00:00',
-                expandRows: true,
-                navLinks: true, // can click day/week names to navigate views
-                editable: true,
                 selectable: true,
-                selectMirror: true,
-                nowIndicator: true,
-                businessHours: {
-                    daysOfWeek: [1, 2, 3, 4, 5],
-                    startTime: '09:00',
-                    endTime: '18:00'
-                },
-                events: 'load_events.php',
-                select: function(arg) {
-                    var title = prompt('Enter Event Title:');
-                    var id_servicio = prompt('Enter Service ID:');
-                    if (title && id_servicio) {
-                        fetch('save_event.php', {
+                select: function(info) {
+                    var title = prompt("Ingrese el título del evento:");
+                    if (title) {
+                        var eventData = {
+                            title: title,
+                            start: info.startStr,
+                            end: info.endStr
+                        };
+                        fetch('save_reservations.php', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({
-                                title: title,
-                                start: arg.start.toISOString(),
-                                end: arg.end.toISOString(),
-                                allDay: arg.allDay,
-                                id_servicio: id_servicio
-                            })
+                            body: JSON.stringify(eventData)
                         })
                         .then(response => response.json())
                         .then(data => {
-                            if (data.id) {
+                            if (data.success) {
                                 calendar.addEvent({
-                                    id: data.id,
                                     title: title,
-                                    start: arg.start,
-                                    end: arg.end,
-                                    allDay: arg.allDay
+                                    start: info.start,
+                                    end: info.end
                                 });
+                                alert("Reserva guardada!");
                             } else {
-                                console.error('Error:', data.error);
+                                alert("Error al guardar la reserva: " + data.error);
                             }
-                        })
-                        .catch(error => {
-                            console.error('Error adding event:', error);
                         });
                     }
                     calendar.unselect();
                 },
-                eventClick: function(arg) {
-                    if (confirm('Are you sure you want to delete this event?')) {
-                        fetch(`delete_event.php?id=${arg.event.id}`, {
-                            method: 'DELETE'
+                events: function(fetchInfo, successCallback, failureCallback) {
+                    fetch('load_events.php', {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    })
+                    .then(response => response.json())
+                    .then(events => successCallback(events))
+                    .catch(error => failureCallback(error));
+                },
+                eventClick: function(info) {
+                    var eventId = info.event.id;
+                    if (confirm("¿Desea eliminar esta reserva?")) {
+                        fetch('delete_reservation.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ id: eventId })
                         })
                         .then(response => response.json())
                         .then(data => {
-                            if (data.deleted) {
-                                arg.event.remove();
+                            if (data.success) {
+                                info.event.remove();
+                                alert("Reserva eliminada correctamente.");
+                            } else {
+                                alert("No se pudo eliminar la reserva: " + data.error);
                             }
-                        })
-                        .catch(error => {
-                            console.error('Error deleting event:', error);
                         });
                     }
                 }
             });
             calendar.render();
         });
-        console.log('FullCalendar is', FullCalendar);
-
     </script>
 </body>
 </html>

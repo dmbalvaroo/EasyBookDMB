@@ -36,8 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                          "<strong>Mensaje:</strong> $userMessage";
 
         $mail->send();
-        echo 'Tu mensaje ha sido enviado correctamente.';
-    } catch (Exception $e) {
+        header('Location: ../../index.php');  // Asegúrate de que esta sea la URL correcta a tu página de inicio
+        exit;    } catch (Exception $e) {
         echo "Lo siento, hubo un error al enviar tu mensaje. Error de Mailer: " . $mail->ErrorInfo;
     }
 }

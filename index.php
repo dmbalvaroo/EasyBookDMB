@@ -34,7 +34,7 @@ session_start(); // Asegúrate de iniciar la sesión aquí
   <!-- Start Header/Navigation -->
   <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
     <div class="container">
-      <a class="navbar-brand" href="index.html">EasyBook<span>.</span></a>
+      <a class="navbar-brand" href="index.php">EasyBook<span>.</span></a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -43,11 +43,11 @@ session_start(); // Asegúrate de iniciar la sesión aquí
       <div class="collapse navbar-collapse" id="navbarsFurni">
         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
           <li class="nav-item active">
-            <a class="nav-link" href="index.html">Inicio</a>
+            <a class="nav-link" href="index.php">Inicio</a>
           </li>
           <li><a class="nav-link" href="shop.html">Shop</a></li>
-          <li><a class="nav-link" href="about.html">Sobre Nosotros</a></li>
-          <li><a class="nav-link" href="services.html">Services</a></li>
+          <li><a class="nav-link" href="about.php">Sobre Nosotros</a></li>
+          <li><a class="nav-link" href="services.php">Services</a></li>
           <?php if (isset($_SESSION['usuario'])) : ?>
             <li><a class="nav-link" href="php/logout.php">Cerrar Sesión</a></li>
           <?php else : ?>
@@ -62,7 +62,7 @@ session_start(); // Asegúrate de iniciar la sesión aquí
             <a class="nav-link" href="php/profile.php"> <img src="images/user.svg" /></a>
           </li>
           <li>
-            <a class="nav-link" href="cart.html"><img src="images/cart.svg" /></a>
+            <a class="nav-link" href="reservasUser.php"><img src="images/cart.svg" /></a>
           </li>
         </ul>
       </div>
@@ -87,7 +87,7 @@ session_start(); // Asegúrate de iniciar la sesión aquí
               desde cualquier parte, incluso desde el sofá de tu casa.
             </p>
             <p>
-              <a href="" class="btn btn-secondary me-2">Explorar</a><a href="#" class="btn btn-white-outline">Ver mis reservas</a>
+              <a href="crearReserva.php" class="btn btn-secondary me-2">Explorar</a><a href="reservasUser.php" class="btn btn-white-outline">Ver mis reservas</a>
             </p>
           </div>
         </div>
