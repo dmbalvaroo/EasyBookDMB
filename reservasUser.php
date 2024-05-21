@@ -11,11 +11,21 @@ if (!isset($_SESSION['id_usuario'])) {
 
 $id_usuario = $_SESSION['id_usuario'];
 
+// Procesar la cancelación de la reserva
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancelar_reserva'])) {
+    $id_reserva = $_POST['id_reserva'];
+    $stmt_cancel = $conexion->prepare("UPDATE Reserva SET estado='cancelada' WHERE id_reserva=?");
+    $stmt_cancel->bind_param("i", $id_reserva);
+    $stmt_cancel->execute();
+    $stmt_cancel->close();
+    echo "<p>Reserva cancelada con éxito.</p>";
+}
+
 $query = "SELECT Reserva.id_reserva, Reserva.fecha_hora, Reserva.estado, 
                  Servicio.nombre_servicio, Servicio.descripcion, Servicio.precio
           FROM Reserva
           JOIN Servicio ON Reserva.id_servicio = Servicio.id_servicio
-          WHERE Reserva.id_usuario = ?";
+          WHERE Reserva.id_usuario = ? AND Reserva.estado != 'cancelada'";
 
 $stmt = $conexion->prepare($query);
 if (!$stmt) {
@@ -33,32 +43,50 @@ echo '<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <title>Reservas del Usuario</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+form {
+    display: inline;
+}
+
+</style>
 <body>
 <h2>Reservas del Usuario</h2>
 <table>
@@ -69,6 +97,7 @@ echo '<!DOCTYPE html>
         <th>Servicio</th>
         <th>Descripción</th>
         <th>Precio</th>
+        <th>Acciones</th>
     </tr>';
 
 while ($row = $result->fetch_assoc()) {
@@ -79,15 +108,21 @@ while ($row = $result->fetch_assoc()) {
             <td>{$row['nombre_servicio']}</td>
             <td>{$row['descripcion']}</td>
             <td>{$row['precio']} €</td>
+            <td>";
+    if ($row['estado'] !== 'cancelada') {
+        echo "<form action='' method='post'>
+                <input type='hidden' name='id_reserva' value='{$row['id_reserva']}'>
+                <input type='submit' name='cancelar_reserva' value='Cancelar Reserva'>
+              </form>";
+    }
+    echo "</td>
           </tr>";
 }
 
 echo '</table>
-<a class="nav-link" href="index.php">Volver a Inicio</a>
-
+<a href="index.php">Volver a Inicio</a>
 </body>
 </html>';
 
 $stmt->close();
 $conexion->close();
-?>

@@ -2,7 +2,7 @@
 session_start();
 
 // Comprueba si el usuario no ha iniciado sesión o no es un usuario de tipo 'empresa' ni 'administrador'
-if (!isset($_SESSION['usuario']) || ($_SESSION['tipo_usuario'] !== 'empresa' && $_SESSION['nivel_acceso'] !== 'administrador')) {
+if (!isset($_SESSION['id_usuario']) || ($_SESSION['tipo_usuario'] !== 'empresa' && $_SESSION['nivel_acceso'] !== 'empresa')) {
     echo "<p>Acceso denegado. Debes ser un usuario de tipo Empresa o Administrador para acceder a esta página.</p>";
     exit; // Detiene la ejecución adicional del script
 }
@@ -29,13 +29,13 @@ if (!isset($_SESSION['usuario']) || ($_SESSION['tipo_usuario'] !== 'empresa' && 
                         <a class="nav-link active" aria-current="page" href="#">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="agregar_servicio.php">Agregar Servicios</a>
+                        <a class="nav-link" href="crearNuevoServicio.php">Agregar Servicios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="modificar_servicios.php">Modificar Servicios</a>
+                        <a class="nav-link" href="modificarServicio.php">Modificar Servicios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="ver_reservas.php">Ver Reservas</a>
+                        <a class="nav-link" href="gestionReservas.php">Ver Reservas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="php/logout.php">Cerrar Sesión</a>

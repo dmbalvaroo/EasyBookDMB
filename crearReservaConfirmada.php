@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("php/conexionbd.php");
+require_once("sendMailConfirmation.php"); // Ajusta la ruta según la ubicación de tu archivo sendMailConfirmation.php
 
 if (!isset($_SESSION['id_usuario'])) {
     echo "<p>Acceso denegado: No se ha iniciado sesión.</p>";
@@ -51,7 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reservar'])) {
             $insertar = $conexion->prepare("INSERT INTO Reserva (fecha_hora, estado, id_usuario, id_servicio, id_establecimiento) VALUES (?, 'pendiente', ?, ?, ?)");
             $insertar->bind_param("siii", $fecha_hora, $id_usuario, $id_servicio, $id_establecimiento);
             if ($insertar->execute()) {
-                echo "<p>Reserva realizada con éxito.</p>";
+                // Instanciar la clase SendMailConfirmation
+                $sendMailConfirmation = new SendMailConfirmation();
+
+                // Enviar el correo electrónico de confirmación
+                if ($sendMailConfirmation->enviarCorreoConfirmacion($id_servicio, $id_usuario, $fecha_hora)) {
+                    echo "<p>Reserva realizada con éxito. Se ha enviado un correo electrónico de confirmación.</p>";
+                } else {
+                    echo "<p>Reserva realizada con éxito. Error al enviar el correo electrónico de confirmación.</p>";
+                }
             } else {
                 echo "<p>Error al realizar la reserva: " . $conexion->error . "</p>";
             }
@@ -149,13 +158,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reservar'])) {
         color: #666;
     }
 
-    select, input[type="text"], input[type="time"] {
+    select,
+    input[type="text"],
+    input[type="time"] {
         width: 100%;
         padding: 10px;
         margin-bottom: 15px;
         border: 1px solid #ccc;
         border-radius: 4px;
-        box-sizing: border-box; /* Incluye padding y border en el ancho y alto */
+        box-sizing: border-box;
+        /* Incluye padding y border en el ancho y alto */
     }
 
     input[type="submit"] {
